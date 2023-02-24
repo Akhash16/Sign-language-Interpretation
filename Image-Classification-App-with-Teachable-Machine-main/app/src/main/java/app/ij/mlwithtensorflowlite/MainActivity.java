@@ -7,6 +7,7 @@ package app.ij.mlwithtensorflowlite;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.Manifest;
 import android.content.Intent;
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        getSupportActionBar().setTitle("Sign Language Interpretation");
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     maxPos = i;
                 }
             }
-            String[] classes = {"hello","Bye"};
+            String[] classes = {"Mother","Help","What","More","Like"};
             result.setText(classes[maxPos]);
 
             String s = "";
