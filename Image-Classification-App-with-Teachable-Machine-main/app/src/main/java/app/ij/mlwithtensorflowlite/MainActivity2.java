@@ -41,7 +41,7 @@ public class MainActivity2 extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
-                Intent intent = new Intent(MainActivity2.this, MainActivity.class);
+                Intent intent = new Intent(MainActivity2.this, SelectLanguage.class);
                 startActivity(intent);
             }
 

@@ -29,8 +29,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import app.ij.mlwithtensorflowlite.ml.Model;
+import app.ij.mlwithtensorflowlite.ml.ModelTam;
+import app.ij.mlwithtensorflowlite.ml.ModelHin;
 
-public class MainActivity extends AppCompatActivity {
+public class HomePage extends AppCompatActivity {
 
     TextView result, confidence;
     ImageView imageView;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
 
         getSupportActionBar().setTitle("Sign Language Interpretation");
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -66,8 +69,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void classifyImage(Bitmap image){
+        String lang = "english";
         try {
             Model model = Model.newInstance(getApplicationContext());
+            ModelTam model_tam = ModelTam.newInstance(getApplicationContext());
+            ModelTam model_hind = ModelTam.newInstance(getApplicationContext());
 
             // Creates inputs for reference.
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
@@ -105,7 +111,25 @@ public class MainActivity extends AppCompatActivity {
                     maxPos = i;
                 }
             }
-            String[] classes = {"Mother","Help","What","More","Like"};
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                String value = extras.getString("key");
+                //The key argument here must match that used in the other activity
+                lang = value;
+                System.out.println(lang);
+            }
+            String[] classes;
+            if(lang == "english"){
+
+                classes = new String[]{"Mother", "Help", "What", "More", "Like"};
+            } else if (lang == "tamil") {
+                classes = new String[]{"Mothertam", "Helptam", "Whattam", "Moretam", "Liketam"};
+
+            }
+            else{
+                classes = new String[]{"Motherhind", "Helphind", "Whathind", "Morehind", "Likehind"};
+            }
+
             result.setText(classes[maxPos]);
 
             String s = "";
@@ -132,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
             imageView.setImageBitmap(image);
 
             image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
-            classifyImage(image);
+            classifyImage(image);//should create seperate functions for specific models
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

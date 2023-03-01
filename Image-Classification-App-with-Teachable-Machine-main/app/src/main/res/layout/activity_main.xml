@@ -4,20 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".HomePage">
 
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:id="@+id/button"
-        android:text="Take Picture"
-        android:textAllCaps="false"
+        android:layout_width="270dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="Capture"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
         android:textSize="21sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
     <ImageView
         android:layout_width="370sp"
         android:layout_height="370sp"
