@@ -13,6 +13,7 @@ public class SelectLanguage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_language);
+        getSupportActionBar().setTitle("      Sign Language Interpretation");
 
         Button EngButton = (Button) findViewById(R.id.eng_btn);
         EngButton.setOnClickListener(new View.OnClickListener() {

@@ -69,7 +69,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void classifyImage(Bitmap image){
-        String lang = "english";
+
         try {
             Model model = Model.newInstance(getApplicationContext());
             ModelTam model_tam = ModelTam.newInstance(getApplicationContext());
@@ -111,24 +111,26 @@ public class HomePage extends AppCompatActivity {
                     maxPos = i;
                 }
             }
-            Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                String value = extras.getString("key");
-                //The key argument here must match that used in the other activity
-                lang = value;
-                System.out.println(lang);
-            }
-            String[] classes;
-            if(lang == "english"){
+//            Bundle extras = getIntent().getExtras();
+//            if (extras != null) {
+//                String value = extras.getString("key");
+//                //The key argument here must match that used in the other activity
+//                lang = value;
+//                System.out.println(lang);
+//            }
+//            String[] classes;
+//            if(lang == "english"){
+//
+//                classes = new String[]{"Mother", "Help", "What", "More", "Like"};
+//            } else if (lang == "tamil") {
+//                classes = new String[]{"Mothertam", "Helptam", "Whattam", "Moretam", "Liketam"};
+//
+//            }
+//            else{
+//                classes = new String[]{"Motherhind", "Helphind", "Whathind", "Morehind", "Likehind"};
+//            }
 
-                classes = new String[]{"Mother", "Help", "What", "More", "Like"};
-            } else if (lang == "tamil") {
-                classes = new String[]{"Mothertam", "Helptam", "Whattam", "Moretam", "Liketam"};
-
-            }
-            else{
-                classes = new String[]{"Motherhind", "Helphind", "Whathind", "Morehind", "Likehind"};
-            }
+            String[] classes = new String[]{"Mother", "Help", "What", "More", "Like"};
 
             result.setText(classes[maxPos]);
 
@@ -147,6 +149,165 @@ public class HomePage extends AppCompatActivity {
     }
 
 
+    public void classifyImageTam(Bitmap image){
+
+        try {
+
+            ModelTam model_tam = ModelTam.newInstance(getApplicationContext());
+
+            // Creates inputs for reference.
+            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
+            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
+            byteBuffer.order(ByteOrder.nativeOrder());
+
+            // get 1D array of 224 * 224 pixels in image
+            int [] intValues = new int[imageSize * imageSize];
+            image.getPixels(intValues, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());
+
+            // iterate over pixels and extract R, G, and B values. Add to bytebuffer.
+            int pixel = 0;
+            for(int i = 0; i < imageSize; i++){
+                for(int j = 0; j < imageSize; j++){
+                    int val = intValues[pixel++]; // RGB
+                    byteBuffer.putFloat(((val >> 16) & 0xFF) * (1.f / 255.f));
+                    byteBuffer.putFloat(((val >> 8) & 0xFF) * (1.f / 255.f));
+                    byteBuffer.putFloat((val & 0xFF) * (1.f / 255.f));
+                }
+            }
+
+            inputFeature0.loadBuffer(byteBuffer);
+
+            // Runs model inference and gets result.
+            ModelTam.Outputs outputs = model_tam.process(inputFeature0);
+            TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+
+            float[] confidences = outputFeature0.getFloatArray();
+            // find the index of the class with the biggest confidence.
+            int maxPos = 0;
+            float maxConfidence = 0;
+            for(int i = 0; i < confidences.length; i++){
+                if(confidences[i] > maxConfidence){
+                    maxConfidence = confidences[i];
+                    maxPos = i;
+                }
+            }
+//            Bundle extras = getIntent().getExtras();
+//            if (extras != null) {
+//                String value = extras.getString("key");
+//                //The key argument here must match that used in the other activity
+//                lang = value;
+//                System.out.println(lang);
+//            }
+//            String[] classes;
+//            if(lang == "english"){
+//
+//                classes = new String[]{"Mother", "Help", "What", "More", "Like"};
+//            } else if (lang == "tamil") {
+//                classes = new String[]{"Mothertam", "Helptam", "Whattam", "Moretam", "Liketam"};
+//
+//            }
+//            else{
+//                classes = new String[]{"Motherhind", "Helphind", "Whathind", "Morehind", "Likehind"};
+//            }
+
+            String[] classes = new String[]{"Mother", "Help", "What", "More", "Like"};
+
+            result.setText(classes[maxPos]);
+
+            String s = "";
+            for(int i = 0; i < classes.length; i++){
+                s += String.format("%s: %.1f%%\n", classes[i], confidences[i] * 100);
+            }
+            confidence.setText(s);
+
+
+            // Releases model resources if no longer used.
+            model_tam.close();
+        } catch (IOException e) {
+            // TODO Handle the exception
+        }
+    }
+
+
+    public void classifyImageHin(Bitmap image){
+
+        try {
+            ModelHin model_hin = ModelHin.newInstance(getApplicationContext());
+
+            // Creates inputs for reference.
+            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
+            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
+            byteBuffer.order(ByteOrder.nativeOrder());
+
+            // get 1D array of 224 * 224 pixels in image
+            int [] intValues = new int[imageSize * imageSize];
+            image.getPixels(intValues, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());
+
+            // iterate over pixels and extract R, G, and B values. Add to bytebuffer.
+            int pixel = 0;
+            for(int i = 0; i < imageSize; i++){
+                for(int j = 0; j < imageSize; j++){
+                    int val = intValues[pixel++]; // RGB
+                    byteBuffer.putFloat(((val >> 16) & 0xFF) * (1.f / 255.f));
+                    byteBuffer.putFloat(((val >> 8) & 0xFF) * (1.f / 255.f));
+                    byteBuffer.putFloat((val & 0xFF) * (1.f / 255.f));
+                }
+            }
+
+            inputFeature0.loadBuffer(byteBuffer);
+
+            // Runs model inference and gets result.
+            ModelHin.Outputs outputs = model_hin.process(inputFeature0);
+            TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+
+            float[] confidences = outputFeature0.getFloatArray();
+            // find the index of the class with the biggest confidence.
+            int maxPos = 0;
+            float maxConfidence = 0;
+            for(int i = 0; i < confidences.length; i++){
+                if(confidences[i] > maxConfidence){
+                    maxConfidence = confidences[i];
+                    maxPos = i;
+                }
+            }
+//            Bundle extras = getIntent().getExtras();
+//            if (extras != null) {
+//                String value = extras.getString("key");
+//                //The key argument here must match that used in the other activity
+//                lang = value;
+//                System.out.println(lang);
+//            }
+//            String[] classes;
+//            if(lang == "english"){
+//
+//                classes = new String[]{"Mother", "Help", "What", "More", "Like"};
+//            } else if (lang == "tamil") {
+//                classes = new String[]{"Mothertam", "Helptam", "Whattam", "Moretam", "Liketam"};
+//
+//            }
+//            else{
+//                classes = new String[]{"Motherhind", "Helphind", "Whathind", "Morehind", "Likehind"};
+//            }
+
+            String[] classes = new String[]{"Mother", "Help", "What", "More", "Like"};
+
+            result.setText(classes[maxPos]);
+
+            String s = "";
+            for(int i = 0; i < classes.length; i++){
+                s += String.format("%s: %.1f%%\n", classes[i], confidences[i] * 100);
+            }
+            confidence.setText(s);
+
+
+            // Releases model resources if no longer used.
+            model_hin.close();
+        } catch (IOException e) {
+            // TODO Handle the exception
+        }
+    }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 1 && resultCode == RESULT_OK) {
@@ -156,7 +317,28 @@ public class HomePage extends AppCompatActivity {
             imageView.setImageBitmap(image);
 
             image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
-            classifyImage(image);//should create seperate functions for specific models
+            String lang = "english";
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                String value = extras.getString("key");
+                //The key argument here must match that used in the other activity
+                lang = value;
+                System.out.println(lang);
+            }
+
+            if(lang == "english"){
+                System.out.println("engfun");
+                classifyImage(image);
+            } else if (lang == "tamil") {
+                System.out.println("tamfun");
+                classifyImageTam(image);
+            }
+            else{
+                System.out.println("hinfun");
+                classifyImageHin(image);
+            }
+
+            //should create seperate functions for specific models
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
