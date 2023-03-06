@@ -40,7 +40,7 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         imageView = findViewById(R.id.imageView);
         textView = findViewById(R.id.textView);
-        getSupportActionBar().setTitle("      Sign Language Interpretation");
+
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
                 Intent intent = new Intent(MainActivity2.this, SelectLanguage.class);
