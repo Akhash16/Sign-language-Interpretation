@@ -90,7 +90,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\akhas\Downloads\Screenshot 2023-03-07 at 01-10-18 Logo Maker Used By 2.3 Million Startups.png" />
+                                                <entry key="imagePath" value="C:\Users\akhas\Downloads\united-kingdom.png" />
                                                 <entry key="scalingPercent" value="143" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
@@ -124,6 +124,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="outputName" value="uk" />
                                       <entry key="previewDensity" value="XXXHIGH" />
                                     </map>
                                   </option>
