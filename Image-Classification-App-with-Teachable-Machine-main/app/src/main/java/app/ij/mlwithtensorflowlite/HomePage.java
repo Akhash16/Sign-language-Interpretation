@@ -43,7 +43,7 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
 
-        getSupportActionBar().hide();
+        getSupportActionBar().setTitle("Sign Language Interpretation");
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
