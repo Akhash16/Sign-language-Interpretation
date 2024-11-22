@@ -1,1 +1,2 @@
 # Sign-language-Interpretation
+This project is a sign language interpretation system that uses a camera to capture the sign language gestures and then convert them into text and speech. The system is implemented using Python and OpenCV. The system can be used by deaf and dumb people to communicate with others
